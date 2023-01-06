@@ -11,7 +11,7 @@ const logger = winston.createLogger(logConfiguration);
 
 typeSenseService.fetchCollection = async () => {
     try {
-        const response = await axios.get('http://localhost:8108/collections', {
+        const response = await axios.get('http://type-db:8108/collections', {
             headers: {
                 'X-TYPESENSE-API-KEY': 'xyz'
             }
