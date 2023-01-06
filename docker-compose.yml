@@ -1,0 +1,36 @@
+version: '3.8'
+
+services:
+  type-db:
+    image: typesense/typesense:0.23.1
+    environment:
+      TYPESENSE_DATA_DIR: /data
+      TYPESENSE_API_KEY: xyz
+    ports:
+      - 8108:8108
+    volumes:
+      - /tmp:/data
+    restart: "always"
+    networks:
+      - kodo_network
+
+  backend-kodo:
+    container_name: backend-kodo
+    restart: "always"
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    depends_on:
+      - type-db
+    links:
+      - type-db
+    ports:
+      - 3000:3000
+    networks:
+      - kodo_network
+    volumes:
+      - ./:/usr/src/app
+
+networks:
+  kodo_network:
+    name: kodo_network
